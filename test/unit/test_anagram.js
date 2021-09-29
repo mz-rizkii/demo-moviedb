@@ -31,8 +31,8 @@ function testAnagramHandler() {
     const expected_result = [
         ["kita", "atik", "tika"],
         ["aku", "kua"],
-        ["makan"],
-        ["kia"]
+        ["kia"],
+        ["makan"]
     ]
 
     expect(result, 'the result should have number of group as expected result').to.have.lengthOf(expected_result.length);
