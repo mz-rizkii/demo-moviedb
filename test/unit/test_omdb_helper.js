@@ -69,7 +69,7 @@ function checkMovieLogger() {
 }
 
 async function checkSearchMovieLog() {
-    await searchMovieByTitle(demo_search_title);
+    await handleSearchMovie({ title: demo_search_title });
 
     const record = await findVisitorLog('search', demo_search_title);
 
@@ -77,7 +77,7 @@ async function checkSearchMovieLog() {
 }
 
 async function checkViewMovieLog() {
-    await searchMovieByTitle(demo_movie_id);
+    await handleViewMovie(demo_movie_id);
 
     const record = await findVisitorLog('detail', demo_movie_id);
 
@@ -90,5 +90,7 @@ async function removeSampleLog(){
         findVisitorLog('detail', demo_movie_id),
     ]);
 
-    await Promise.all([search_record_id, view_detail_id].map((id) => removeVisitorLog(id)))
+    const removed_records = [search_record_id, view_detail_id].map((id) => removeVisitorLog(id))
+
+    await Promise.all(removed_records)
 }

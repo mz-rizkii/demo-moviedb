@@ -19,7 +19,7 @@ const storeVisitorLog = async ({ url, parameters, timestamp }) => visitor_log.cr
  * @returns visitor log record
  */
 const findVisitorLog = async (RequestUrl, parameter) => visitor_log.findOne({ 
-    where: { RequestUrl, RequestParameters: { [Op.like]: parameter } }
+    where: { RequestUrl, RequestParameters: { [Op.like]: `%${parameter}%` } }
 });
 
 /**
