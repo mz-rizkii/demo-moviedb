@@ -24,13 +24,25 @@ function checkFetchingMovie() {
 async function checkSearchRequest() {
     const result = await searchMovieByTitle('Batman');
 
-    expect(result, 'the search result should have search field').to.have.property('Search');
+    const field_response = ['Search', 'totalResults', 'Response']
+
+    for (const field of field_response) {
+        expect(result, `the search result should have ${field} field`).to.have.property(field);
+    }
 }
 
 async function checkViewDetailRequest() {
     const result = await viewMovieDetail('tt1117563')
 
-    expect(result, 'the search result should have search field').to.have.property('Title');
+    const movie_fields = [
+        'Title', 'Year', 'imdbID', 'Type','Poster', 'Rated', 'Released', 'Runtime', 'Genre', 'Director',
+        'Writer', 'Actors', 'Plot', 'Language','Country', 'Awards', 'Ratings', 'Metascore', 'imdbRating', 'imdbVotes',
+        'imdbID', 'Type', 'DVD', 'BoxOffice','Production', 'Website', 'Response'
+    ];
+    
+    for (const field of movie_fields) {
+        expect(result, `the movie detail should have ${field} field`).to.have.property(field);
+    }
 }
 
 /**
