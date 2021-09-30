@@ -4,6 +4,18 @@ const {
   searchMovieByTitle, viewMovieDetail
 } = require('../../lib/handlers/movie_client');
 
+const {
+    handleSearchMovie, handleViewMovie
+} = require('../../lib/services/movie_service');
+
+const {
+    findVisitorLog, removeVisitorLog
+} = require('../../db/visitor_log_repository')
+
+const demo_search_title = 'Batman';
+
+const demo_movie_id = 'tt1117563';
+
 describe('check movie helper', checkMovieHelper);
 
 function checkMovieHelper() {
@@ -22,7 +34,7 @@ function checkFetchingMovie() {
 }
 
 async function checkSearchRequest() {
-    const result = await searchMovieByTitle('Batman');
+    const result = await searchMovieByTitle(demo_search_title);
 
     const field_response = ['Search', 'totalResults', 'Response']
 
@@ -32,7 +44,7 @@ async function checkSearchRequest() {
 }
 
 async function checkViewDetailRequest() {
-    const result = await viewMovieDetail('tt1117563')
+    const result = await viewMovieDetail(demo_movie_id)
 
     const movie_fields = [
         'Title', 'Year', 'imdbID', 'Type','Poster', 'Rated', 'Released', 'Runtime', 'Genre', 'Director',
@@ -52,12 +64,31 @@ function checkMovieLogger() {
     it('check logging search movie by title', checkSearchMovieLog);
 
     it('check logging view movie detail', checkViewMovieLog);
+
+    after('remove sample logs', removeSampleLog)
 }
 
 async function checkSearchMovieLog() {
-    
+    await searchMovieByTitle(demo_search_title);
+
+    const record = await findVisitorLog('search', demo_search_title);
+
+    expect(record, 'the search log should have record id').to.have.property('id').to.greaterThan(0);
 }
 
 async function checkViewMovieLog() {
+    await searchMovieByTitle(demo_movie_id);
 
+    const record = await findVisitorLog('detail', demo_movie_id);
+
+    expect(record, 'the search log should have record id').to.have.property('id').to.greaterThan(0);
+}
+
+async function removeSampleLog(){
+    const [{ id: search_record_id }, { id: view_detail_id }] = await Promise.all([
+        findVisitorLog('search', demo_search_title),
+        findVisitorLog('detail', demo_movie_id),
+    ]);
+
+    await Promise.all([search_record_id, view_detail_id].map((id) => removeVisitorLog(id)))
 }

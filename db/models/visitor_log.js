@@ -20,7 +20,6 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'visitor_log',
-    underscored: true,
     freezeTableName: true,
     timestamps: false
   });
