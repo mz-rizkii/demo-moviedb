@@ -1,5 +1,5 @@
 const {
-    user, sequelize: { query }, Sequelize: { QueryTypes, Op }
+    user, sequelize, Sequelize: { qu, QueryTypes, Op }
 } = require('./models');
 
 const bulkInsertUser = async (users) => user.bulkCreate(users);
@@ -12,7 +12,9 @@ const setUserCreator = async ({ UserName, Parent }) => {
     return user.update({ Parent: parent_id }, { where: { id } });
 }
 
-const showUserParents = async () => [];
+const showUserParents = async () => sequelize.query(`select u.id, u.UserName, p.UserName Parent 
+from user u 
+left join user p on p.id = u.Parent`, { type: QueryTypes.SELECT });
 
 const dropUsers = async () => user.destroy({ where: { id: { [Op.gt]: 0 } } });
 
