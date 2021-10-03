@@ -4,7 +4,8 @@
   "description": "demo omdb api consumer",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "migrate-db": "npx sequelize db:migrate",
+    "start": "pm2-runtime index.js --name demo_movie_api",
     "test": "mocha"
   },
   "repository": {
@@ -26,7 +27,6 @@
   "devDependencies": {
     "chai": "^4.3.4",
     "mocha": "^9.1.2",
-    "sequelize-cli": "^6.2.0",
     "supertest": "^6.1.6"
   },
   "dependencies": {
@@ -35,6 +35,7 @@
     "express": "^4.17.1",
     "mysql2": "^2.3.0",
     "qs": "^6.10.1",
-    "sequelize": "^6.6.5"
+    "sequelize": "^6.6.5",
+    "sequelize-cli": "^6.2.0"
   }
 }

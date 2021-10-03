@@ -1,0 +1,35 @@
+version: '3.0'
+
+services:
+  movie_api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: movie_consumer_db
+    environment:
+      - PORT=3010
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_USER=root
+      - DB_PASSWORD=thehand
+      - DB_NAME=demodb
+    ports:
+      - "3021:3010"
+    depends_on:
+      - db
+  db:
+    image: mysql:5.7.35
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    container_name: demo_movie_db
+    environment:
+      - MYSQL_ROOT_PASSWORD=thehand
+      - MYSQL_DATABASE=demodb
+    ports:
+      - "3309:3306"
+    volumes:
+      - mysql_data:/var/lib/data/mysql
+      - ./db/migrations/db_structure.sql
+
+volumes:
+  mysql_data:
