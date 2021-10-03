@@ -3,8 +3,19 @@ Demo OMDB consumer
 express.js api sample to consume OMDB API and store visitor log to DB
 
 # Requirements
-MySQL for DBMS
-Nodejs 
+1. MySQL for DBMS
+2. Nodejs 
+3. Docker (Optional)
+
+# Installation 
+1. with docker
+- run `docker-compose build`
+- run `docker-compose up -d`
+2. without docker
+- once you have nodejs & mysql installed run `npm install`
+- update `.env.template` adjust the env vars then save as `.env` 
+- migrate the db structure by running `npx sequelize db:migrate`
+- run `npx index.js` to start the app
 
 # Dependencies
 1. express
